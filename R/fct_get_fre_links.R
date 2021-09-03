@@ -31,7 +31,7 @@ get_fre_links <- function(companies_cvm_codes,
   # filter by company
   if (!is.null(companies_cvm_codes)) {
     df_fre_files <- df_fre_files %>%
-      filter(CD_CVM %in% companies_cvm_codes)
+      dplyr::filter(CD_CVM %in% companies_cvm_codes)
   }
 
   if (nrow(df_fre_files) == 0 ) {
@@ -46,7 +46,21 @@ get_fre_links <- function(companies_cvm_codes,
 
 download_unzip_read_ftp_fre_files <- function(url_in, cache_folder) {
 
-  message('\t* Reading ', basename(url_in))
+  message('\t* Reading ', basename(url_in), appendLF = FALSE)
+
+  # use session cache
+  f_cache <- file.path(tempdir(),
+                       paste0(tools::file_path_sans_ext(basename(url_in)),
+                       '.rds') )
+
+  if (file.exists(f_cache)) {
+    message(' | found cache')
+    df_files <- readr::read_rds(f_cache)
+
+    return(df_files)
+  } else {
+    message(' | no cache found, reading zip file')
+  }
 
   dest_file <- file.path(cache_folder, 'ftp_zip_raw',
                          basename(url_in))
@@ -56,7 +70,8 @@ download_unzip_read_ftp_fre_files <- function(url_in, cache_folder) {
                    be_quiet = TRUE)
 
   # extract to temp
-  temp_zip_dir <- file.path(tempdir(), dest_file)
+  temp_zip_dir <- file.path(tempdir(),
+                            basename(tempfile()))
   dir.create(temp_zip_dir, recursive = TRUE)
 
   utils::unzip(zipfile = dest_file, junkpaths = TRUE, exdir = temp_zip_dir)
@@ -79,6 +94,8 @@ download_unzip_read_ftp_fre_files <- function(url_in, cache_folder) {
                                                       decimal_mark = ',')) %>%
     dplyr::mutate(CD_CVM = readr::parse_number(CD_CVM))
 
+  # save cache
+  readr::write_rds(df_files, f_cache)
 
   return(df_files)
 
