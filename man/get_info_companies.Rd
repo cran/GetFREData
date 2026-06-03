@@ -7,13 +7,13 @@
 get_info_companies(cache_folder = "gfred_cache")
 }
 \arguments{
-\item{cache_folder}{Path of cache folder to keep cache and zip files}
+\item{cache_folder}{Path of cache folder to keep cache and zip files (default = 'gfred_cache')}
 }
 \value{
 A dataframe with several information about B3 companies
 }
 \description{
-Imports a dataset from cvm <http://sistemas.cvm.gov.br/cadastro/SPW_CIA_ABERTA.ZIP>, containing
+Imports a dataset from cvm <https://sistemas.cvm.gov.br/cadastro/SPW_CIA_ABERTA.ZIP>, containing
 up to date information about companies, active or not.
 }
 \examples{

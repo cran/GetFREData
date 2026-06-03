@@ -1,7 +1,7 @@
 
 # GetFREData
 
-`GetFREData` is an R package for downloading information about companies traded at B3, the Brazilian financial exchange. The source of the data is [CVM's ftp site](http://dados.cvm.gov.br/dados/CIA_ABERTA/DOC/FRE/) and B3's [FRE system](https://www.b3.com.br/pt_br/produtos-e-servicos/negociacao/renda-variavel/acoes/consultas/informacoes-por-periodo/), the official registration of all major corporate actions. 
+`GetFREData` is an R package for downloading information about companies traded at B3, the Brazilian financial exchange. The source of the data is [CVM's ftp site](https://dados.cvm.gov.br/dados/CIA_ABERTA/DOC/FRE/) and B3's [FRE system](https://www.b3.com.br/pt_br/produtos-e-servicos/negociacao/renda-variavel/acoes/consultas/informacoes-por-periodo/), the official registration of all major corporate actions. 
 
 The data available in FRE is a rich and very useful for **corporate finance studies**, including the following tables:
 
@@ -17,7 +17,7 @@ The data available in FRE is a rich and very useful for **corporate finance stud
 - Auditing details
 - Dividends details
 
-Annualy compiled datasets from FRE for all available companies since 2010 are available at [https://www.msperlin.com/blog/data/](https://www.msperlin.com/blog/data/).
+Annualy compiled datasets from FRE for all available companies since 2010 are available at [https://msperlin.com/data](https://msperlin.com/data).
 
 ## Installation
 
@@ -39,11 +39,10 @@ library(tidyverse)
 search_company('grendene', 
                cache_folder = tempdir())
 
-l_fre <- get_fre_data(companies_cvm_codes = 19615,
-                      fre_to_read = 'last',
-                      first_year = 2020,
+l_fre <- get_fre_data2(first_year = 2020,
                       last_year = 2020, 
                       cache_folder = tempdir())
                       
 glimpse(l_fre)
+
 ```
